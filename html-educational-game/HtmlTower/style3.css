@@ -1,0 +1,336 @@
+/* Ana sayfa yapısı ve genel ayarlar */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Kaydırma çubuklarını gizle */
+    display: flex; /* Yan yana panel düzeni için */
+    height: 100vh; /* Tam ekran yüksekliği */
+}
+
+/* Sol panel - Kod editörü bölümü */
+.left-panel {
+    width: 50%; /* Ekranın yarısını kapla */
+    background: #2b2b2b; /* Koyu gri arka plan */
+    color: white; /* Beyaz metin */
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Dikey kaydırma çubuğu */
+}
+
+/* Kod bloğu konteyneri */
+.code-container {
+    background: #1e1e1e; /* Çok koyu gri arka plan */
+    padding: 20px;
+    border-radius: 10px; /* Yuvarlatılmış köşeler */
+    margin-bottom: 20px;
+    font-family: 'Courier New', monospace; /* Eşit genişlikli font */
+}
+
+/* Kod satırları */
+.code-line {
+    margin: 5px 0;
+    line-height: 1.5; /* Satır yüksekliği */
+}
+
+/* Boş alanlar (doldurulacak kısımlar) */
+.blank {
+    background: #444; /* Orta gri arka plan */
+    padding: 2px 10px;
+    border-radius: 4px;
+    margin: 0 5px;
+    display: inline-block;
+    min-width: 100px; /* Minimum genişlik */
+    cursor: pointer; /* El işaretçisi */
+    border: 2px solid transparent; /* Şeffaf kenarlık */
+    transition: all 0.3s; /* Geçiş efekti */
+}
+
+/* Boş alan hover efekti */
+.blank:hover {
+    border-color: #00ff00; /* Yeşil kenarlık */
+}
+
+/* Yanlış cevap stili */
+.blank.wrong {
+    background: #ff4444; /* Kırmızı arka plan */
+    border-color: #ff0000; /* Kırmızı kenarlık */
+    animation: shake 0.5s; /* Titreme animasyonu */
+}
+
+/* Doğru cevap stili */
+.blank.correct {
+    background: #44ff44; /* Yeşil arka plan */
+    border-color: #00ff00; /* Yeşil kenarlık */
+}
+
+/* Titreme animasyonu */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Soru konteyneri */
+.question {
+    background: #333; /* Koyu gri arka plan */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Seçenek butonları konteyneri */
+.options {
+    display: flex;
+    gap: 10px; /* Butonlar arası boşluk */
+    margin-top: 10px;
+    flex-wrap: wrap; /* Satır sonunda alt satıra geç */
+}
+
+/* Seçenek butonları */
+.option {
+    background: #4a4a4a; /* Orta koyu gri */
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+/* Seçenek butonu hover efekti */
+.option:hover {
+    background: #5a5a5a; /* Daha açık gri */
+    border-color: #00ff00; /* Yeşil kenarlık */
+}
+
+/* Sağ panel - Oyun görünümü bölümü */
+.right-panel {
+    width: 50%; /* Ekranın yarısını kapla */
+    position: relative;
+    overflow: hidden; /* Taşan içeriği gizle */
+}
+
+/* Oyun görünümü konteyneri */
+.game-view {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s ease-out; /* Yumuşak geçiş */
+}
+
+/* Arka plan gradyeni (gökyüzünden uzaya) */
+.background {
+    position: absolute;
+    width: 100%;
+    height: 5000%; /* Çok yüksek arka plan */
+    bottom: 0;
+    background: linear-gradient(to top, 
+        #87CEEB 0%,      /* Açık gök mavisi */
+        #4682B4 1.5%,   /* Orta mavi */
+        #191970 3%,     /* Gece mavisi */
+        #000033 4.5%,   /* Koyu gece */
+        #000000 6%,     /* Uzay */
+        #000000 7.5%    /* Derin uzay */
+    );
+}
+
+/* Yıldızlar konteyneri */
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+
+/* Tek yıldız elementi */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%; /* Yuvarlak şekil */
+    animation: twinkle 3s infinite; /* Parıldama animasyonu */
+}
+
+/* Yıldız parıldama animasyonu */
+@keyframes twinkle {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Kule konteyneri */
+.tower-container {
+    position: absolute;
+    bottom: 100px; /* Zeminden 100px yukarıda */
+    left: 50%; /* Yatayda ortala */
+    transform: translateX(-50%); /* Tam ortala */
+    width: 80%;
+    max-width: 400px; /* Maksimum genişlik */
+}
+
+/* Kule katları */
+.floor {
+    width: 100%;
+    height: 60px; /* Kat yüksekliği */
+    background: #8B4513; /* Kahverengi (tuğla rengi) */
+    border: 3px solid #654321; /* Koyu kahverengi kenarlık */
+    margin-bottom: 5px; /* Katlar arası boşluk */
+    position: relative;
+    animation: buildFloor 0.5s ease-out; /* Yapım animasyonu */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Gölge efekti */
+}
+
+/* Kat yapım animasyonu */
+@keyframes buildFloor {
+    from {
+        transform: scale(0); /* Sıfır boyuttan başla */
+        opacity: 0; /* Şeffaf başla */
+    }
+    to {
+        transform: scale(1); /* Normal boyuta çık */
+        opacity: 1; /* Tamamen görünür ol */
+    }
+}
+
+/* Sol pencere (pseudo-element) */
+.floor::before {
+    content: ''; /* Boş içerik */
+    position: absolute;
+    width: 20%;
+    height: 40%;
+    background: #87CEEB; /* Açık mavi (cam efekti) */
+    top: 30%;
+    left: 10%;
+    border: 2px solid #4682B4; /* Mavi kenarlık */
+}
+
+/* Sağ pencere (pseudo-element) */
+.floor::after {
+    content: ''; /* Boş içerik */
+    position: absolute;
+    width: 20%;
+    height: 40%;
+    background: #87CEEB; /* Açık mavi (cam efekti) */
+    top: 30%;
+    right: 10%;
+    border: 2px solid #4682B4; /* Mavi kenarlık */
+}
+
+/* Zemin */
+.ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background: #228B22; /* Orman yeşili */
+    border-top: 5px solid #006400; /* Koyu yeşil üst kenarlık */
+}
+
+/* Kullanıcı arayüzü elemanları */
+
+/* Can göstergesi */
+.lives {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    gap: 10px; /* Kalpler arası boşluk */
+}
+
+/* Kalp ikonu */
+.heart {
+    color: #ff0000; /* Kırmızı */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Gölge efekti */
+    transition: all 0.3s;
+}
+
+/* Kaybedilen can */
+.heart.lost {
+    opacity: 0.3; /* Şeffaflaştır */
+    transform: scale(0.8); /* Küçült */
+}
+
+/* Seviye göstergesi */
+.level {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 20px;
+    background: rgba(0,0,0,0.5); /* Yarı şeffaf siyah arka plan */
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* Oyun bitti ekranı */
+.game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Tam ortala */
+    background: rgba(0,0,0,0.8); /* Yarı şeffaf siyah */
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    display: none; /* Başlangıçta gizli */
+}
+
+/* Oyun bitti başlığı */
+.game-over h2 {
+    margin: 0 0 20px 0;
+    font-size: 36px;
+    color: #ff0000; /* Kırmızı */
+}
+
+/* Yeniden başla butonu */
+.restart-btn {
+    background: #00ff00; /* Yeşil */
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+/* Yeniden başla butonu hover efekti */
+.restart-btn:hover {
+    background: #00cc00; /* Koyu yeşil */
+    transform: scale(1.05); /* Hafif büyüt */
+}
+
+/* Başarı efekti */
+.success-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    color: #00ff00; /* Yeşil */
+    font-weight: bold;
+    animation: successPop 1s ease-out; /* Başarı animasyonu */
+    pointer-events: none; /* Tıklanamaz */
+}
+
+/* Başarı pop animasyonu */
+@keyframes successPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0); /* Sıfır boyuttan başla */
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5); /* Büyüt */
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1); /* Normal boyuta dön */
+        opacity: 0; /* Görünmez ol */
+    }
+}
